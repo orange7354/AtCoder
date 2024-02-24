@@ -1,42 +1,41 @@
 <?php
+fscanf(STDIN, '%d', $n);
+$S = trim(fgets(STDIN));
+fscanf(STDIN, '%d', $q);
 
-fscanf(STDIN, "%d %d %d", $l, $n , $k);
-
-$arr = explode(" ", trim(fgets(STDIN)));
-
-
-
-function canDivide($cuts, $n, $maxLen, $L) {
-    $count = 1;
-    $prevCut = 0;
-    foreach ($cuts as $cut) {
-        if ($cut - $prevCut > $maxLen) {
-            return false;
-        } else {
-            $prevCut = $cut;
-            $count++;
-        }
-    }
-    return $count == $n;
+$replacements = [];
+for ($i = 0; $i < $q; $i++) {
+    [$from, $to] = explode(' ', trim(fgets(STDIN)));
+    // 直接の置換を記録
+    $replacements[$from] = $to;
 }
 
-function findMinimumMaxLength($L, $n, $k, $A) {
-    array_unshift($A, 0);
-    array_push($A, $L);
-    $left = 0;
-    $right = $L + 1;
-    
-    while ($right - $left > 1) {
-        $mid = intdiv($left + $right, 2);
-        if (canDivide($A, $n, $mid, $L)) {
-            $right = $mid;
-        } else {
-            $left = $mid;
+// 最終的な置換を計算する
+$finalReplacements = [];
+foreach ($replacements as $from => $to) {
+    $current = $to;
+    $seen = [$from => true]; // 現在の置換から始まるチェーンを追跡
+
+    // 最終的な置換先を探す
+    while (isset($replacements[$current])) {
+        if (isset($seen[$current])) {
+            // 循環参照が検出された場合、このチェーンの処理を終了
+            break;
         }
+        $seen[$current] = true; // 現在の要素を見たと記録
+        $current = $replacements[$current];
     }
-    
-    return $right;
+    $finalReplacements[$from] = $current;
+}
+// 文字列Sを一度だけ走査して置換
+$result = '';
+for ($i = 0; $i < strlen($S); $i++) {
+    $char = $S[$i];
+    // 最終的な置換が存在する場合のみ置換
+    if (isset($finalReplacements[$char])) {
+        $char = $finalReplacements[$char];
+    }
+    $result .= $char;
 }
 
-
-echo findMinimumMaxLength($l,$n,$k,$arr).PHP_EOL;
+echo $result.PHP_EOL;
