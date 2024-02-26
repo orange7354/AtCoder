@@ -10,6 +10,8 @@ for($i = 0; $i < $q; $i++) {
 }
 
 function binarySearch($t,$arr,$n){
+    // 合格者がいない場合や、全員合格者の場合があるため
+    //　境界値は外側
     $left = -1;
     $right = $n;
 
