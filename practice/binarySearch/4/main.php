@@ -1,4 +1,6 @@
 <?php
+// url https://paiza.jp/works/mondai/binary_search/binary_search__basic_boss/edit?language_uid=php
+// ある範囲に含まれている整数の個数
 fscanf(STDIN, '%d', $n);
 $arr = explode(' ', trim(fgets(STDIN)));
 sort($arr);
