@@ -1,5 +1,6 @@
 <?php
-
+// url : https://paiza.jp/works/mondai/binary_search/binary_search__basic_step1/edit?language_uid=php
+// lower_bound
 fscanf(STDIN, '%d', $n);
 $arr = explode(' ', trim(fgets(STDIN)));
 sort($arr);
