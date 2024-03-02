@@ -1,4 +1,6 @@
 <?php
+// url :https://paiza.jp/works/mondai/binary_search/binary_search__basic_step0/edit?language_uid=php
+//値の検索
 
 fscanf(STDIN, '%d', $n);
 $arr = explode(' ', trim(fgets(STDIN)));
