@@ -1,6 +1,7 @@
 <?php
 fscanf(STDIN, "%d", $N);
 $res = false;
+//tle
 while($i <= $N){
     $tt = pow($i,$i);
     if($tt == $N){
