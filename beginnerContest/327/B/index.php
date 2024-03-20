@@ -1,9 +1,9 @@
 <?php
 fscanf(STDIN, "%d", $N);
 $res = false;
-//tle
-while($i <= $N){
-    $tt = pow($i,$i);
+$i = 1;
+while($i ** $i <= $N){
+    $tt = $i ** $i;
     if($tt == $N){
         echo $i.PHP_EOL;
         $res = true;
