@@ -1,34 +1,68 @@
 <?php
-//TODO: TLE・RE　未解決
-list($N,$M) = explode(" ",trim(fgets(STDIN)));
-$map = [];
-$friends = [];
-for($i = 0; $i < $M; $i++){
-    list($a,$b) = explode(" ",trim(fgets(STDIN)));
-    $map[$a][$b] = true;
-    $map[$b][$a] = true;
-    $friends[] = [$a,$b];
+//TODO doraminoさんからお借りした。読み解く
+[$N,$M] = fscanf(STDIN,"%d%d");
+if($M==0) exit(0 . PHP_EOL);
+$uf = new UnionFind($N);
+for($i=0;$i<$M;++$i){
+    [$a,$b] = fscanf(STDIN,"%d%d");
+    $uf->union($a,$b);
 }
 
-echo counter($friends,$map).PHP_EOL;
+$ans = 0;
+for($i=1;$i<$N;++$i){
+    $root = $uf->root($i);
+    if(isset($memo[$root])) continue;
+    $n = $uf->sz[$root];
+    $m = $uf->cnt[$root];
+    $memo[$root] = true;
+    $ans += intdiv($n*($n-1),2) - $m;
+}
 
-function counter($friends,$graph) {
+echo $ans . PHP_EOL;
 
-    $result = 0;
-    $processed = [];
 
-    foreach ($friends as list($A, $B)) {
-        foreach ($graph[$A] as $X => $isFriend) {
-            if ($X != $B && !isset($graph[$B][$X])) {
-                if (!isset($processed["$B,$X"]) && !isset($processed["$X,$B"])) {
-                    $graph[$B][$X] = true;
-                    $graph[$X][$B] = true;
-                    $result++;
-                    $processed["$B,$X"] = true;
-                }
-            }
+
+
+
+class UnionFind
+{
+    public $pr = [];
+    public $sz = [];
+    public $cnt = [];
+
+    function __construct($n){
+        for($i=1;$i<=$n;++$i){
+            $this->pr[$i] = $i;
+            $this->sz[$i] = 1;
         }
     }
 
-    return $result;
+    function push($x){
+        $this->pr[$x] = $x;
+        $this->sz[$x] = 1;
+    }
+
+    function root($a){
+        if($this->pr[$a] === $a) return $a;
+        return $this->pr[$a] = $this->root($this->pr[$a]);
+    }
+
+    function union($a, $b){
+        $a = $this->root($a);
+        $b = $this->root($b);
+        $this->cnt[$a] = ($this->cnt[$a]??0)+1;
+        if($a === $b) return;
+        if($this->sz[$a] < $this->sz[$b]) list($a,$b) = [$b,$a];
+        $this->pr[$b] = $a;
+        $this->sz[$a] += $this->sz[$b];
+        $this->cnt[$a] += ($this->cnt[$b]??0);
+    }
+
+    function isSame($a,$b){
+        return $this->root($a) === $this->root($b);
+    }
+
+    function size($a){
+        return $this->sz[$this->root($a)];
+    }
 }
