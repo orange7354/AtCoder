@@ -17,7 +17,7 @@ func main() {
 		fmt.Scan(&input)
 		if beforeString == "sweet" && input == "sweet" && i != n-1 {
 			fmt.Println("No")
-			os.Exit(1)
+			os.Exit(0)
 		} else {
 			beforeString = input
 		}
