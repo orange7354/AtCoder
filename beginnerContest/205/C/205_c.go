@@ -7,21 +7,6 @@ import (
 
 func main() {
 	sub()
-	// var a, b, c float64
-	// fmt.Scan(&a, &b, &c)
-
-	// var ac, bc float64
-	// ac = math.Pow(a, c)
-	// bc = math.Pow(b, c)
-
-	// if ac > bc {
-	// 	fmt.Println(">")
-	// } else if ac < bc {
-	// 	fmt.Println("<")
-	// } else {
-	// 	fmt.Println("=")
-	// }
-
 }
 
 func sub() {
