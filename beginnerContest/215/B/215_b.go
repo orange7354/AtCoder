@@ -1,17 +1,13 @@
 package main
 
-import (
-	"fmt"
-	"math"
-)
+import "fmt"
 
 func main() {
-	var n float64
-	fmt.Scan(&n)
-	var k float64
-	for math.Pow(2.0, k) <= n {
-		k++
+	N := 0
+	fmt.Scanf("%d", &N)
+	k, v := 0, 1
+	for ; v <= N; k++ {
+		v *= 2
 	}
-
-	fmt.Println(int(k - 1))
+	fmt.Println(k - 1)
 }
