@@ -6,33 +6,47 @@ func main() {
 	var n int
 	fmt.Scan(&n)
 
-	var a, b, c []int
+	a := getNumbers(n)
+	b := getNumbers(n)
+	c := getNumbers(n)
 
-	a = make([]int, n)
-	b = make([]int, n)
-	c = make([]int, n)
-
-	t := make(map[int]int)
-	r := make(map[int]int)
-
-	for i := 0; i < n; i++ {
-		fmt.Scan(&a[i])
-		t[a[i]]++
+	m := make(map[int64]int64, n)
+	for _, v := range c {
+		_, ok := m[v]
+		if !ok {
+			m[v] = 1
+		} else {
+			m[v]++
+		}
 	}
+	newM := make(map[int64]int64, n)
+	for i, v := range b {
+		count, ok := m[int64(i+1)]
+		if ok {
+			newM[v] += count
 
-	for i := 0; i < n; i++ {
-		fmt.Scan(&b[i])
-		r[i+1] = b[i]
-	}
-
-	ans := 0
-	for i := 0; i < n; i++ {
-		fmt.Scan(&c[i])
-		if t[r[c[i]]] > 0 {
-			ans += t[r[c[i]]]
+		} else {
+			newM[v] = 0
 		}
 	}
 
-	fmt.Println(ans)
+	sum := int64(0)
 
+	for _, v := range a {
+		count, ok := newM[v]
+		if ok {
+			sum += count
+		}
+	}
+
+	fmt.Println(sum)
+}
+
+func getNumbers(size int) []int64 {
+	a := make([]int64, size)
+	for i := 0; i < size; i++ {
+		fmt.Scan(&a[i])
+	}
+
+	return a
 }
